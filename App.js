@@ -1,20 +1,14 @@
-
-let balance = 0;
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+}
 
 function recharge() {
-  let amt = document.getElementById("amount").value;
-  if (!amt || amt <= 0) {
-    alert("Enter valid amount");
-    return;
-  }
-  alert("Recharge request submitted: " + amt + " USDT");
+  alert("Recharge request submitted (Demo)");
 }
 
 function withdraw() {
-  let amt = document.getElementById("wamount").value;
-  if (!amt || amt <= 0) {
-    alert("Enter valid withdraw amount");
-    return;
-  }
-  alert("Withdraw request submitted");
+  alert("Withdraw request submitted (Demo)");
 }
