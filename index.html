@@ -1,34 +1,74 @@
+
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Speed Pay</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Speed Pay - User Dashboard</h2>
-
-<div class="card">
-  <p><b>Balance:</b> <span id="balance">0</span> USDT</p>
+<!-- HEADER -->
+<div class="header">
+  <h2>Speed Pay</h2>
 </div>
 
-<div class="card">
-  <h3>Recharge (USDT TRC20)</h3>
-  <input id="amount" placeholder="Enter Amount">
-  <button onclick="recharge()">Submit Recharge</button>
+<!-- HOME -->
+<div class="page active" id="home">
+  <div class="card balance-card">
+    <p>Total Balance</p>
+    <h1><span id="balance">0</span> USDT</h1>
+  </div>
 </div>
 
-<div class="card">
-  <h3>Withdraw (Bank)</h3>
-  <input id="bank" placeholder="Bank Name">
-  <input id="acc" placeholder="Account Number">
-  <input id="ifsc" placeholder="IFSC">
-  <input id="wamount" placeholder="Amount">
-  <button onclick="withdraw()">Withdraw</button>
+<!-- RECHARGE -->
+<div class="page" id="recharge">
+  <div class="card">
+    <h3>Recharge (USDT TRC20)</h3>
+    <input id="amount" placeholder="Enter Amount">
+    <button onclick="recharge()">Submit Recharge</button>
+    <p class="note">Send USDT to Admin Wallet</p>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div class="page" id="team">
+  <div class="card">
+    <h3>My Team</h3>
+    <p>Referral system coming soon</p>
+  </div>
+</div>
+
+<!-- ACCOUNT -->
+<div class="page" id="account">
+  <div class="card">
+    <h3>Withdraw (Bank)</h3>
+    <input id="bank" placeholder="Bank Name">
+    <input id="acc" placeholder="Account Number">
+    <input id="ifsc" placeholder="IFSC Code">
+    <input id="wamount" placeholder="Amount">
+    <button onclick="withdraw()">Withdraw</button>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button onclick="showPage('home')">Home</button>
+  <button onclick="showPage('recharge')">Recharge</button>
+  <button onclick="showPage('team')">Team</button>
+  <button onclick="showPage('account')">Account</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 <script src="app.js"></script>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+</script>
+
 </body>
 </html>
