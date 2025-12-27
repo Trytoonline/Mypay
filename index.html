@@ -15,7 +15,9 @@
     <h1><span id="balance">0</span> USDT</h1>
   </div>
 </div>
-
+<div class="page" id="recharge" style="display:none">
+<div class="page" id="team" style="display:none">
+<div class="page" id="account" style="display:none">
 <div class="page" id="recharge">
   <div class="card">
     <h3>Recharge (USDT TRC20)</h3>
@@ -49,6 +51,15 @@
   <button onclick="showPage('account')">Account</button>
 </div>
 
-<script src="app.js"></script>
+<script>
+function showPage(pageId) {
+  var pages = document.querySelectorAll('.page');
+  pages.forEach(function(page) {
+    page.style.display = "none";
+  });
+
+  document.getElementById(pageId).style.display = "block";
+}
+</script>
 </body>
 </html>
