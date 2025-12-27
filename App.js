@@ -1,14 +1,9 @@
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => {
-    p.classList.remove('active');
+
+function showPage(pageId) {
+  const pages = document.querySelectorAll('.page');
+  pages.forEach(page => {
+    page.classList.remove('active');
   });
-  document.getElementById(id).classList.add('active');
-}
 
-function recharge() {
-  alert("Recharge request submitted (Demo)");
-}
-
-function withdraw() {
-  alert("Withdraw request submitted (Demo)");
+  document.getElementById(pageId).classList.add('active');
 }
