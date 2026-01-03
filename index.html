@@ -1,65 +1,848 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Speed Pay</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Speed Pay</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            color: #333;
+            max-width: 420px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 70px;
+        }
+
+        .container {
+            padding: 15px;
+            padding-bottom: 80px;
+        }
+
+        /* Login/Register Page Styles */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .auth-box {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+        }
+
+        .app-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background: #f5f7fa;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .auth-tab.active {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .input-with-prefix {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .prefix {
+            padding: 15px;
+            background: #f5f7fa;
+            border-right: 1px solid #ddd;
+            font-weight: 500;
+        }
+
+        .input-field {
+            flex: 1;
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+        }
+
+        .blue-btn {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .blue-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .gradient-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            max-width: 420px;
+            margin: 0 auto;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 15px;
+            text-decoration: none;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Dashboard Styles */
+        .balance-card {
+            text-align: center;
+            padding: 25px 20px;
+        }
+
+        .balance-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .exchange-rate {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 5px 0;
+        }
+
+        .small-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .small-card {
+            text-align: center;
+            padding: 20px 15px;
+        }
+
+        .small-card-title {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .small-card-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .banner-card {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .banner-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .banner-text {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .telegram-banner {
+            background: #0088cc;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        /* Transaction Page Styles */
+        .tab-container {
+            display: flex;
+            background: #f5f7fa;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 20px 0;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .recharge-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            margin: 15px 0;
+            outline: none;
+        }
+
+        /* USDT Deposit Section */
+        .usdt-input-group {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .usdt-input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .currency-select {
+            width: 80px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            font-size: 16px;
+        }
+
+        .conversion-display {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Deposit QR Section */
+        .qr-section {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 15px auto;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+
+        .wallet-address {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .transaction-id-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+
+        .upload-section {
+            border: 2px dashed #ddd;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .upload-section:hover {
+            border-color: #667eea;
+        }
+
+        /* Payment Page Styles */
+        .bank-details-form {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .withdraw-form {
+            margin: 20px 0;
+        }
+
+        /* Bank List Styles */
+        .bank-list {
+            margin: 20px 0;
+        }
+
+        .bank-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bank-info h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .bank-info p {
+            font-size: 14px;
+            color: #666;
+            margin: 3px 0;
+        }
+
+        .bank-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Team Page Styles */
+        .commission-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .commission-item {
+            text-align: center;
+            padding: 15px 10px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .commission-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .commission-value {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .percentage-display {
+            font-size: 24px;
+            color: #4CAF50;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .invite-section {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .invite-code {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .referral-link {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            word-break: break-all;
+            font-size: 14px;
+        }
+
+        /* Account Page Styles */
+        .profile-header {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+
+        .menu-list {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 20px;
+            border-bottom: 1px solid #f5f5f5;
+            text-decoration: none;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-icon {
+            width: 24px;
+            margin-right: 15px;
+            color: #667eea;
+            text-align: center;
+        }
+
+        .menu-text {
+            flex: 1;
+        }
+
+        .menu-arrow {
+            color: #999;
+        }
+
+        .sign-out {
+            color: #f44336;
+        }
+
+        /* Unique Features */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .feature-item.active {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+        }
+
+        .feature-item.active .feature-icon {
+            color: white;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        /* History Tables */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .history-table th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            font-size: 12px;
+        }
+
+        .history-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 12px;
+        }
+
+        .history-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Date Range Picker */
+        .date-range-picker {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .date-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .filter-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .p-20 {
+            padding: 20px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            z-index: 1;
+        }
+
+        /* USDT Transaction ID Input */
+        .transaction-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        /* Notification Badge */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notifications {
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Amount Colors */
+        .amount-positive {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .amount-negative {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Export Buttons */
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .export-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .export-pdf {
+            background: #f44336;
+            color: white;
+        }
+
+        .export-excel {
+            background: #4CAF50;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-
-<div class="header">Speed Pay</div>
-
-<div class="page active" id="home">
-  <div class="card balance-card">
-    <p>Total Balance</p>
-    <h1><span id="balance">0</span> USDT</h1>
-  </div>
-</div>
-<div class="page" id="recharge" style="display:none">
-<div class="page" id="team" style="display:none">
-<div class="page" id="account" style="display:none">
-<div class="page" id="recharge">
-  <div class="card">
-    <h3>Recharge (USDT TRC20)</h3>
-    <input placeholder="Enter Amount">
-    <button>Submit Recharge</button>
-  </div>
-</div>
-
-<div class="page" id="team">
-  <div class="card">
-    <h3>My Team</h3>
-    <p>Referral system coming soon</p>
-  </div>
-</div>
-
-<div class="page" id="account">
-  <div class="card">
-    <h3>Withdraw (Bank)</h3>
-    <input placeholder="Bank Name">
-    <input placeholder="Account Number">
-    <input placeholder="IFSC Code">
-    <input placeholder="Amount">
-    <button>Withdraw</button>
-  </div>
-</div>
-
-<div class="bottom-nav">
-  <button onclick="showPage('home')">Home</button>
-  <button onclick="showPage('recharge')">Recharge</button>
-  <button onclick="showPage('team')">Team</button>
-  <button onclick="showPage('account')">Account</button>
-</div>
-
-<script>
-function showPage(pageId) {
-  var pages = document.querySelectorAll('.page');
-  pages.forEach(function(page) {
-    page.style.display = "none";
-  });
-
-  document.getElementById(pageId).style.display = "block";
-}
-</script>
-</body>
-</html>
+    <!-- Auth Pages -->
+    <div id="authPage" class="auth-container">
+        <div class="auth-box">
+            <div class="app-title">Speed Pay</div>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="loginTab">LOGIN</div>
+                <div class="auth-tab" id
